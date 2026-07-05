@@ -87,13 +87,18 @@ La aplicación se conecta con el `DATABASE_URL` definido en `.env`:
 postgresql+psycopg2://postgres:postgres@localhost:5433/ecommerce
 ```
 
-Si desea usar el puerto `5432`, primero verifique qué proceso lo está usando:
+Si necesita usar el puerto `5432`, primero verifique qué proceso lo está usando:
 
 ```bash
 sudo lsof -iTCP:5432 -sTCP:LISTEN
 ```
 
 Luego puede cambiar `POSTGRES_HOST_PORT` y `DATABASE_URL` en `.env`.
+
+## Poblar las tablas y datos
+```bash
+python -m app.database.seed
+```
 
 ## Instalar k6 
 
@@ -104,6 +109,12 @@ snap install k6
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
+
+## Documentación FastAPI
+http://localhost:8000/docs
+
+## Strawberry GraphQL
+http://localhost:8000/graphql
 ---
 
 # Estructura del proyecto
