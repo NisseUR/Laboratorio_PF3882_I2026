@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+strawberry-graphql[fastapi]
+psycopg2-binary
+faker
+alembic
+python-dotenv
