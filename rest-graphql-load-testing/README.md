@@ -100,8 +100,10 @@ Luego puede cambiar `POSTGRES_HOST_PORT` y `DATABASE_URL` en `.env`.
 ```bash
 snap install k6
 ```
-
-
+## Levantar la API
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
 ---
 
 # Estructura del proyecto
