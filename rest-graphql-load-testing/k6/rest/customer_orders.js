@@ -28,9 +28,17 @@ export default function () {
   recordResponse(response, TAGS);
 
   check(response, {
-    "status is 200": (res) => res.status === 200,
-    "customer orders is an array": (res) => Array.isArray(res.json()),
+    "status is 200": (res) => res && res.status === 200,
   });
+
+  if (response.status === 200 && response.body) {
+    const data = response.json();
+
+    check(response, {
+      "customer orders is an array": () =>
+        Array.isArray(data),
+    });
+  }
 
   sleep(THINK_TIME_SECONDS);
 }

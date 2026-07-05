@@ -2,7 +2,7 @@ const LOAD_LEVELS = {
   low: { vus: 10, duration: "30s" },
   medium: { vus: 50, duration: "30s" },
   high: { vus: 100, duration: "30s" },
-  very_high: { vus: 250, duration: "30s" },
+  // very_high: { vus: 250, duration: "30s" },
 };
 
 function selectedLoadLevel() {

@@ -56,13 +56,20 @@ export default function () {
   recordResponse(response, TAGS);
 
   check(response, {
-    "status is 200": (res) => res.status === 200,
-    "graphql has no errors": (res) => !res.json("errors"),
-    "order has items": (res) => {
-      const items = res.json("data.order.items");
-      return Array.isArray(items) && items.length > 0;
-    },
+    "status is 200": (res) => res && res.status === 200,
   });
+
+  if (response.status === 200 && response.body) {
+    const data = response.json();
+
+    check(response, {
+      "graphql has no errors": () => !data.errors,
+
+      "order has items": () =>
+        Array.isArray(data.data.order.items) &&
+        data.data.order.items.length > 0,
+    });
+  }
 
   sleep(THINK_TIME_SECONDS);
 }

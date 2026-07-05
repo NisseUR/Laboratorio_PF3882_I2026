@@ -56,8 +56,13 @@ export default function () {
 
   check(response, {
     "status is 200": (res) => res.status === 200,
-    "graphql has no errors": (res) => !res.json("errors"),
-    "customer orders is an array": (res) => Array.isArray(res.json("data.customerOrders")),
+
+    "graphql has no errors": (res) =>
+      res.status === 200 && !res.json("errors"),
+
+    "customer orders is an array": (res) =>
+      res.status === 200 &&
+      Array.isArray(res.json("data.customerOrders")),
   });
 
   sleep(THINK_TIME_SECONDS);

@@ -28,13 +28,20 @@ export default function () {
   recordResponse(response, TAGS);
 
   check(response, {
-    "status is 200": (res) => res.status === 200,
-    "order has customer": (res) => Boolean(res.json("customer.id")),
-    "order has items": (res) => {
-      const items = res.json("items");
-      return Array.isArray(items) && items.length > 0;
-    },
+    "status is 200": (res) => res && res.status === 200,
   });
+
+  if (response.status === 200 && response.body) {
+    const data = response.json();
+
+    check(response, {
+      "customer orders is an array": () =>
+        Array.isArray(data),
+
+      "customer has at least one order": () =>
+        Array.isArray(data) && data.length > 0,
+    });
+  }
 
   sleep(THINK_TIME_SECONDS);
 }

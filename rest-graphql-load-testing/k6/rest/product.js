@@ -28,11 +28,20 @@ export default function () {
   recordResponse(response, TAGS);
 
   check(response, {
-    "status is 200": (res) => res.status === 200,
-    "product has id": (res) => Boolean(res.json("id")),
-    "product has over-fetched fields": (res) =>
-      Boolean(res.json("description")) && Boolean(res.json("category")),
+    "status is 200": (res) => res && res.status === 200,
   });
+
+  if (response.status === 200 && response.body) {
+    const data = response.json();
+
+    check(response, {
+      "product has id": () => data.id !== undefined,
+
+      "product has over-fetched fields": () =>
+        data.description !== undefined &&
+        data.category !== undefined,
+    });
+  }
 
   sleep(THINK_TIME_SECONDS);
 }

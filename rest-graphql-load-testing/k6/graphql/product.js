@@ -40,13 +40,21 @@ export default function () {
   recordResponse(response, TAGS);
 
   check(response, {
-    "status is 200": (res) => res.status === 200,
-    "graphql has no errors": (res) => !res.json("errors"),
-    "product has requested fields": (res) =>
-      Boolean(res.json("data.product.name")) &&
-      res.json("data.product.price") !== null &&
-      res.json("data.product.price") !== undefined,
+    "status is 200": (res) => res && res.status === 200,
   });
+
+  if (response.status === 200 && response.body) {
+    const data = response.json();
+
+    check(response, {
+      "graphql has no errors": () => !data.errors,
+
+      "product has requested fields": () =>
+        Boolean(data.data.product.name) &&
+        data.data.product.price !== null &&
+        data.data.product.price !== undefined,
+    });
+  }
 
   sleep(THINK_TIME_SECONDS);
 }

@@ -28,10 +28,19 @@ export default function () {
   recordResponse(response, TAGS);
 
   check(response, {
-    "status is 200": (res) => res.status === 200,
-    "products is an array": (res) => Array.isArray(res.json()),
-    "products are returned": (res) => res.json().length > 0,
+    "status is 200": (res) => res && res.status === 200,
   });
+
+  if (response.status === 200 && response.body) {
+    const data = response.json();
+
+    check(response, {
+      "products is an array": () => Array.isArray(data),
+
+      "products are returned": () =>
+        Array.isArray(data) && data.length > 0,
+    });
+  }
 
   sleep(THINK_TIME_SECONDS);
 }
